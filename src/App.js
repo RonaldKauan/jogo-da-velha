@@ -76,13 +76,11 @@ function App() {
     
     return (
         <div className="pagina">
-            {jogadas === 9 && (
-                <h1>DEU VELHA: NÃO HOUVE GANHADOR!</h1>
-            )}
-
-            {ganhador && jogadas !== 9 && (
-                <h1>O GANHADOR FOI O: {ganhador}</h1>
-            )}
+            {ganhador ? ganhador !== '-' ? (
+                <h1 data-testid="mensagem">O GANHADOR FOI O: {ganhador}</h1>
+            ) : (
+                <h1 data-testid="mensagem">DEU VELHA: NÃO HOUVE GANHADOR!</h1>
+            ) : null}
 
             <div className="conteudo-container"> 
                 {estado.map((linha, lIndex) => (
