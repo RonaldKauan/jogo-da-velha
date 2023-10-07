@@ -16,11 +16,11 @@ function App() {
 
         if (jogada === 'X') {
             setJogada('O');
-            setJogadas(jogadas+1);
         } else {
             setJogada('X');
-            setJogadas(jogadas+1);
         }
+
+        setJogadas(prev => prev + 1);
     }
 
     const verificaGanhou = useCallback(() => {
@@ -64,7 +64,7 @@ function App() {
                 setGanhador('O');    
                 break;
             }
-            if(jogadas === 9){
+            if (jogadas === 9){
                 setGanhador('-');
             }
         }
@@ -73,44 +73,14 @@ function App() {
     useEffect(() => {
         verificaGanhou();
     }, [jogada, verificaGanhou]);
-
-    if (jogadas === 9){
-        return (
-            <div className="pagina">
-                {ganhador && (
-                    <h1>DEU VELHA: NÃO HOUVE GANHADOR!</h1>
-                )}
-
-                <div className="conteudo-container"> 
-                    {estado.map((linha, lIndex) => (
-                        linha.map((item, cIndex) => (
-                            <div 
-                                className="conteudo-borda" 
-                                onClick={() => item === '' && ganhador === '' && preencheCampo(lIndex, cIndex)}
-                                key={cIndex}
-                            >
-                                {item}
-                            </div>
-                        ))
-                    ))}
-                </div>
-
-                {ganhador && (
-                    <button onClick={() => {
-                        setEstado([['', '', ''], ['', '', ''], ['', '', '']]);
-                        setGanhador('');
-                        setJogadas(0);
-                    }}>
-                        Reiniciar jogo
-                    </button>
-                )}
-            </div>
-        );
-    }
     
     return (
         <div className="pagina">
-            {ganhador && (
+            {jogadas === 9 && (
+                <h1>DEU VELHA: NÃO HOUVE GANHADOR!</h1>
+            )}
+
+            {ganhador && jogadas !== 9 && (
                 <h1>O GANHADOR FOI O: {ganhador}</h1>
             )}
 
@@ -118,7 +88,8 @@ function App() {
                 {estado.map((linha, lIndex) => (
                     linha.map((item, cIndex) => (
                         <div 
-                            className="conteudo-borda" 
+                            className="conteudo-borda"
+                            data-testid="conteudo"
                             onClick={() => item === '' && ganhador === '' && preencheCampo(lIndex, cIndex)}
                             key={cIndex}
                         >

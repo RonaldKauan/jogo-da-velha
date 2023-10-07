@@ -1,8 +1,11 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('deveria falhar se não encontrar os 9 quadradros clicaveis', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+
+  const lugaresParaJogar = screen.queryAllByTestId('conteudo');
+  
+  expect(lugaresParaJogar).toHaveLength(9);
 });
